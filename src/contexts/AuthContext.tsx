@@ -40,10 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const response = await authInstance.get("/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Token verification response:", response);
         return response.status === 200;
       } catch (error) {
-        console.error("Token verification failed:", error);
         return false;
       }
     },
@@ -82,10 +80,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Login function
   const login = useCallback((token: string) => {
-    console.log("Login called with token:", token);
     localStorage.setItem("access_token", token);
     const payload = decodeJWT(token);
-    console.log("Decoded payload:", payload);
     if (payload) {
       const userData = {
         id: payload.sub,
@@ -95,13 +91,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
-      console.log("User set:", userData);
     }
   }, []);
 
   // Logout function
   const logout = useCallback(() => {
-    console.log("Logout called");
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
     setUser(null);
@@ -110,27 +104,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      console.log("Initializing auth...");
       setIsLoading(true);
 
       const token = localStorage.getItem("access_token");
-      console.log("Token from localStorage:", token ? "exists" : "not found");
 
       if (!token) {
-        console.log("No token found, setting loading to false");
         setIsLoading(false);
         return;
       }
 
       if (!isValidToken(token)) {
-        console.log("Invalid token, logging out");
         logout();
         return;
       }
 
       const payload = decodeJWT(token);
       if (payload) {
-        console.log("Setting user from token payload");
         const userData = {
           id: payload.sub,
           email: payload.email ?? "",
@@ -139,31 +128,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
         setUser(userData);
 
-        // Verify token in background, but don't block the UI
         setTimeout(() => {
           verifyTokenWithBackend(token).then((isValid) => {
             if (!isValid) {
-              console.log("Backend verification failed, logging out");
               logout();
             } else {
-              console.log("Backend verification successful");
             }
           });
-        }, 100); // Small delay to ensure state is set first
+        }, 100);
       } else {
-        console.log("Failed to decode token, logging out");
         logout();
         return;
       }
-
-      console.log("Auth initialization complete, setting loading to false");
       setIsLoading(false);
     };
 
     initializeAuth();
   }, [logout, verifyTokenWithBackend]);
 
-  // Token refresh check
   useEffect(() => {
     if (!user) return;
 
@@ -174,7 +156,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      // If token will expire soon, try to refresh
       if (willTokenExpireSoon(token, 5)) {
         refreshToken().then((success) => {
           if (!success) {
@@ -184,7 +165,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    // Check every 5 minutes
     const interval = setInterval(checkTokenExpiration, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, [user, logout, refreshToken]);
@@ -197,12 +177,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     refreshToken,
   };
-
-  console.log("Auth context value:", {
-    hasUser: !!user,
-    isLoading,
-    isAuthenticated: !!user,
-  });
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

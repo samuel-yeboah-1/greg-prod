@@ -17,6 +17,7 @@ function Navbar() {
   const [toggleMenu, setToggleMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { isAuthenticated, logout, isLoading } = useAuth();
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -77,15 +78,22 @@ function Navbar() {
               ))}
             </ul>
           </div>
-          {/* Right - Toggle + Sign In */}
+          {/* Right - Toggle + Sign In/Out */}
           <div className="flex-1 flex justify-end gap-4 items-center">
             <div className="hidden md:block">
               <ModeToggle />
             </div>
             <div className="hidden md:block">
-              <Button variant="outline" asChild>
-                <a href="/auth/signin">Sign In</a>
-              </Button>
+              {!isLoading &&
+                (isAuthenticated ? (
+                  <Button variant="outline" onClick={logout}>
+                    Sign Out
+                  </Button>
+                ) : (
+                  <Button variant="outline" asChild>
+                    <a href="/auth/signin">Sign In</a>
+                  </Button>
+                ))}
             </div>
             {/* Mobile menu trigger */}
             <div className="md:hidden z-[60] relative">
@@ -133,11 +141,24 @@ function Navbar() {
             </li>
           ))}
           <li className="text-3xl">
-            <Button variant="outline" asChild>
-              <a href="/auth/signin" onClick={() => setToggleMenu(false)}>
-                Sign In
-              </a>
-            </Button>
+            {!isLoading &&
+              (isAuthenticated ? (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setToggleMenu(false);
+                    logout();
+                  }}
+                >
+                  Sign Out
+                </Button>
+              ) : (
+                <Button variant="outline" asChild>
+                  <a href="/auth/signin" onClick={() => setToggleMenu(false)}>
+                    Sign In
+                  </a>
+                </Button>
+              ))}
           </li>
         </ul>
       </div>
