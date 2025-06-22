@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import TanstackQueryProvider from "@/providers/TanstackQueryProvider";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,19 +31,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TanstackQueryProvider>
-            <header>
-              <Navbar />
-            </header>
-            {children}
-          </TanstackQueryProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TanstackQueryProvider>
+              <header>
+                <Navbar />
+              </header>
+              <main className="mt-32 md: mt-40">{children}</main>
+            </TanstackQueryProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

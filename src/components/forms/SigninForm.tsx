@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { SigninType } from "@/types";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Form,
   FormControl,
@@ -19,9 +20,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "../ui/loading-spinner";
+
 export function SignInForm({
   className,
   ...props
@@ -29,6 +30,9 @@ export function SignInForm({
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { login } = useAuth();
+  const router = useRouter();
 
   const form = useForm<SigninType>({
     resolver: zodResolver(signinSchema),
@@ -38,7 +42,6 @@ export function SignInForm({
     },
   });
 
-  const router = useRouter();
   const onSubmit = async (userCredentials: SigninType) => {
     try {
       setIsLoading(true);
@@ -46,12 +49,14 @@ export function SignInForm({
 
       const response = await signinHandler(userCredentials);
 
-      if (response.success) {
+      if (response.success && response.data?.data?.token) {
+        login(response.data.data.token);
         toast.success(response.message || "Login successful");
         router.push("/actions");
       } else {
-        setLoginError(response?.message || "Login failed");
-        toast.error(response?.message || "Login failed");
+        const errorMessage = response?.message || "Login failed";
+        setLoginError(errorMessage);
+        toast.error(errorMessage);
       }
     } catch (error: any) {
       const message = error?.message || "An error occurred during sign in";
@@ -76,6 +81,7 @@ export function SignInForm({
                     Login to your Greg Account
                   </p>
                 </div>
+
                 <FormField
                   control={form.control}
                   name="email"
@@ -92,7 +98,9 @@ export function SignInForm({
                       <FormMessage />
                     </FormItem>
                   )}
+                  disabled={isLoading}
                 />
+
                 <FormField
                   control={form.control}
                   name="password"
@@ -128,18 +136,25 @@ export function SignInForm({
                       <FormMessage />
                     </FormItem>
                   )}
+                  disabled={isLoading}
                 />
 
-                <FormMessage>{loginError}</FormMessage>
+                {loginError && (
+                  <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+                    {loginError}
+                  </div>
+                )}
 
-                <Button type="submit" className={`w-full`} disabled={isLoading}>
-                  {`${isLoading ? <LoadingSpinner /> : "Login"}`}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? <LoadingSpinner /> : "Login"}
                 </Button>
+
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-card text-muted-foreground relative z-10 px-2">
                     Or continue with
                   </span>
                 </div>
+
                 <div className="grid grid-cols-3 gap-4">
                   <Button variant="outline" type="button" className="w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -150,6 +165,7 @@ export function SignInForm({
                     </svg>
                     <span className="sr-only">Login with Apple</span>
                   </Button>
+
                   <Button
                     variant="outline"
                     type="button"
@@ -164,6 +180,7 @@ export function SignInForm({
                     </svg>
                     <span className="sr-only">Login with Google</span>
                   </Button>
+
                   <Button variant="outline" type="button" className="w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path
@@ -174,6 +191,7 @@ export function SignInForm({
                     <span className="sr-only">Login with Meta</span>
                   </Button>
                 </div>
+
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <a

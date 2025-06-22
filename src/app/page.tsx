@@ -57,7 +57,7 @@ export default function Home() {
     };
   }, []);
   return (
-    <div>
+    <>
       <main className="flex flex-col gap-40">
         <div className="flex flex-col gap-20 items-center justify-center  h-screen overflow-hidden">
           <div className="flex flex-row items-center justify-center">
@@ -102,6 +102,6 @@ export default function Home() {
         </div>
         <ContactUs />
       </main>
-    </div>
+    </>
   );
 }

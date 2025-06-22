@@ -6,6 +6,7 @@ import { ModeToggle } from "./ui/mode-toggle";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import usePathname from "../lib/usePathname";
+import { useAuth } from "@/contexts/AuthContext";
 
 function Navbar() {
   const navLinks = [
@@ -67,7 +68,7 @@ function Navbar() {
                     className={navLinkClass(
                       link.link,
                       "hover:text-gray-700 dark:hover:text-gray-300 transition-colors",
-                      " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white"
+                      " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white",
                     )}
                   >
                     {link.name}
@@ -124,7 +125,7 @@ function Navbar() {
                 className={navLinkClass(
                   link.link,
                   "hover:text-gray-600 transition-colors",
-                  " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white"
+                  " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white",
                 )}
               >
                 {link.name}
