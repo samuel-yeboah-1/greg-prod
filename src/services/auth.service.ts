@@ -1,17 +1,17 @@
 import { authInstance } from "@/lib/axios";
 import { AxiosError } from "axios";
-
 import { SigninType, SignupType } from "@/types";
 
 export const signinHandler = async (userCredentials: SigninType) => {
   try {
-    const response = await authInstance.post("/auth/login", userCredentials);
+    // Use the correct backend route
+    const response = await authInstance.post("/auth/signin", userCredentials);
     if (response.status === 200) {
       localStorage.setItem("access_token", response.data.data.token)
       return {
         success: true,
         message: "Login successful",
-        data: response.data, 
+        data: response.data,
       };
     }
 
@@ -45,16 +45,16 @@ export const signinHandler = async (userCredentials: SigninType) => {
   }
 };
 
-
 export const signupHandler = async (userCredentials: SignupType) => {
   try {
-    const response = await authInstance.post("/auth/register", userCredentials);
+    // Use the correct backend route
+    const response = await authInstance.post("/auth/signup", userCredentials);
 
     if (response.status === 200 || response.status === 201) {
       return {
         success: true,
         message: response.data?.message || "Signup successful",
-        data: response.data, 
+        data: response.data,
       };
     }
 
@@ -74,7 +74,6 @@ export const signupHandler = async (userCredentials: SignupType) => {
       };
     }
 
-  
     console.error("Signup error:", error);
     return {
       success: false,
@@ -83,40 +82,10 @@ export const signupHandler = async (userCredentials: SignupType) => {
   }
 };
 
-
-// export const verifyToken = async (token: string) => {
-//   if (!token) return null;
-//   try {
-//     const response = await axiosInstance.post(
-//       "/auth/verifyToken",
-//       {},
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     return response.status === 200;
-//   } catch (error) {
-//     console.error("Token verification failed:", error);
-//     return false;
-//   }
-// };
-
 /**
- *
  * @param provider The OAuth provider to use (e.g., 'google')
  */
 export const oauthHandler = async (provider: string) => {
-  const loginUrl = `https://gregmvp-backend.onrender.com/api/v1/auth/login/${provider}`;
-  // window.location.href = loginUrl;
-  try {
-    const response = await fetch(loginUrl)
-    const data = await response.json()
-    window.location.href = data.data.redirect_url
-    console.log(data)
-  } catch (error) {
-    console.log(error)
-  }
-
+  const loginUrl = `https://gregmvp-backend.onrender.com/api/v1/auth/${provider}`;
+  window.location.href = loginUrl;
 };

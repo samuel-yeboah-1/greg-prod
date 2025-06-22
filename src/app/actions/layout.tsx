@@ -1,29 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import type { ReactNode } from "react";
 
-export default function ProtectedLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProtectedLayout({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
-  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
 
   useEffect(() => {
-    if (!isLoading) {
-      setHasCheckedAuth(true);
-
-      if (!isAuthenticated) {
-        router.replace("/auth/signin");
-      }
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/auth/signin");
     }
   }, [isAuthenticated, isLoading, router]);
 
-  if (isLoading || !hasCheckedAuth) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -34,9 +26,7 @@ export default function ProtectedLayout({
     );
   }
 
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!isAuthenticated) return null;
 
   return <>{children}</>;
 }
