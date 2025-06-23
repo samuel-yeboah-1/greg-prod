@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const highlightRef = useRef(null);
+  const gregRef = useRef(null);
   useEffect(() => {
     // HighlightText scroll-trigger animation
     let split: SplitType | null = null;
@@ -46,8 +47,24 @@ export default function Home() {
             trigger: highlightRef.current,
             start: "top 80%",
           },
-        }
+        },
       );
+      if (gregRef.current) {
+        split = new SplitType(gregRef.current, { types: "words" });
+        gsap.fromTo(
+          split.words,
+          {
+            x: 0,
+            yoyo: true,
+            rotation: 360,
+            duration: 2,
+            ease: "bounce.inOut",
+          },
+          {
+            x: 150,
+          },
+        );
+      }
     }
 
     return () => {
@@ -62,7 +79,7 @@ export default function Home() {
         <div className="flex flex-col gap-20 items-center justify-center  h-screen overflow-hidden">
           <div className="flex flex-row items-center justify-center">
             <Magnet className="tracking-wider font-extrabold text-5xl md:text-8xl text-blue-500 text-center">
-              <span>GREG.</span>
+              <span ref={gregRef}>GREG.</span>
             </Magnet>
           </div>
 

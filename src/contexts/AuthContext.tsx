@@ -26,6 +26,7 @@ interface AuthContextType {
   authMethod: "jwt" | "session" | null;
   login: (token: string) => void;
   logout: () => void;
+  signup: (token: string) => void;
   refreshToken: () => Promise<boolean>;
 }
 
@@ -49,12 +50,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token && isValidToken(token)) {
         try {
           console.log("Attempting JWT authentication");
-          const response = await authInstance.get("/users/me", {
+          const response = await authInstance.get("/vi/api/users/me", {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            withCredentials: false, // Don't send cookies for JWT auth
+            withCredentials: false,
           });
 
           if (response.status === 200 && response.data?.data) {
@@ -82,11 +83,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Try session authentication (cookie-based)
       try {
         console.log("Attempting session authentication");
-        const response = await authInstance.get("/users/me", {
+        const response = await authInstance.get("/api/v1/users/me", {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true, // Send cookies for session auth
+          withCredentials: true,
         });
 
         if (response.status === 200 && response.data?.data) {
@@ -195,6 +196,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setAuthMethod("jwt");
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("JWT login successful, user set");
+    }
+  }, []);
+
+  const signup = useCallback((token: string) => {
+    console.log("Login called with JWT token");
+    localStorage.setItem("access_token", token);
+    const payload = decodeJWT(token);
+    if (payload) {
+      const userData = {
+        id: payload.sub,
+        email: payload.email ?? "",
+        name: payload.name,
+        ...payload,
+      };
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
     }
   }, []);
 
@@ -345,6 +362,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authMethod,
     login, // For JWT login
     logout,
+    signup,
     refreshToken,
   };
 

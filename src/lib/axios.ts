@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authInstance = axios.create({
-  baseURL: "https://gregmvp-backend.onrender.com/api/v1",
+  baseURL: "https://gregmvp-backend.onrender.com/",
   timeout: 50000,
   headers: {
     "Content-Type": "application/json",

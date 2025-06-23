@@ -5,7 +5,7 @@ import { SigninType, SignupType } from "@/types";
 export const signinHandler = async (userCredentials: SigninType) => {
   try {
     // Use the correct backend route
-    const response = await authInstance.post("/auth/signin", userCredentials);
+    const response = await authInstance.post("/api/v1/auth/login", userCredentials);
     if (response.status === 200) {
       localStorage.setItem("access_token", response.data.data.token)
       return {
@@ -48,9 +48,10 @@ export const signinHandler = async (userCredentials: SigninType) => {
 export const signupHandler = async (userCredentials: SignupType) => {
   try {
     // Use the correct backend route
-    const response = await authInstance.post("/auth/signup", userCredentials);
+    const response = await authInstance.post("/api/v1/auth/register", userCredentials);
 
     if (response.status === 200 || response.status === 201) {
+      console.log(response.data)
       return {
         success: true,
         message: response.data?.message || "Signup successful",
@@ -86,6 +87,14 @@ export const signupHandler = async (userCredentials: SignupType) => {
  * @param provider The OAuth provider to use (e.g., 'google')
  */
 export const oauthHandler = async (provider: string) => {
-  const loginUrl = `https://gregmvp-backend.onrender.com/api/v1/auth/${provider}`;
-  window.location.href = loginUrl;
+  // const loginUrl = `http://localhost:5000/auth/${provider}`;
+  try {
+    const response = await fetch(`https://gregmvp-backend.onrender.com/api/v1/auth/login/${provider}`);
+    const data = await response.json()
+    console.log(data)
+    window.location.href = data.data.redirect_url
+  } catch (error) {
+    console.error("error during oauth", error)
+  }
+
 };
