@@ -1,5 +1,7 @@
 import React from "react";
 import { BoxReveal } from "@/components/magicui/box-reveal";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
 
 function ContactUs() {
   return (
@@ -16,14 +18,23 @@ function ContactUs() {
         </div>
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-        <p className="text-sm xs:text-base md:text-lg font-medium text-gray-700 dark:text-blue-100 leading-relaxed max-w-md mx-0 text-left">
-          We’re still behind the scenes building something we think you’ll love.
-          <br />
-          <span className="text-blue-700 dark:text-blue-300 font-semibold">
-            Drop us a note
-          </span>{" "}
-          — whether it’s feedback, interest, or just to say hi.
-        </p>
+        <div className="flex flex-col gap-5">
+          <p className="text-sm xs:text-base md:text-lg font-medium text-gray-700 dark:text-blue-100 leading-relaxed max-w-md mx-0 text-left">
+            We’re still behind the scenes building something we think you’ll
+            love.
+            <br />
+            <span className="text-blue-700 dark:text-blue-300 font-semibold">
+              Drop us a note
+            </span>{" "}
+            — whether it’s feedback, interest, or just to say hi.
+          </p>
+          <div>
+            <div className=" flex flex-col gap-5">
+              <Textarea />
+              <Button>Send</Button>
+            </div>
+          </div>
+        </div>
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
         <div className="mt-2 flex flex-col items-start gap-2">

@@ -42,7 +42,7 @@ export default function RootLayout({
               <header>
                 <Navbar />
               </header>
-              <main className="mt-32 md: mt-40">{children}</main>
+              <main className="mt-30">{children}</main>
             </TanstackQueryProvider>
           </ThemeProvider>
         </AuthProvider>

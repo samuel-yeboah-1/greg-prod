@@ -12,7 +12,11 @@ import RegisterYourInterestForm from "../forms/RegisterYourInterestForm";
 
 function RegisterYourInterest() {
   return (
-    <Card className="w-full max-w-sm">
+    <div className="flex flex-col md:flex-row items-center justify-center">
+      <div className="flex-1">
+
+      </div>
+    <Card className="flex-1 w-full">
       <CardHeader>
         <CardTitle>Register your interest</CardTitle>
         <CardDescription>Enter your email below to continue</CardDescription>
@@ -30,6 +34,7 @@ function RegisterYourInterest() {
         </Button>
       </CardFooter>
     </Card>
+    </div>
   );
 }
 

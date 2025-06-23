@@ -13,6 +13,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AboutUsSection } from "@/components/landing-page/About-Us";
 import RegisterYourInterest from "@/components/landing-page/RegisterYourInterest";
 import ContactUs from "@/components/landing-page/Contact-Us";
+import Folder from "@/blocks/Components/Folder/Folder";
+import Orb from "@/blocks/Components/Orb/Orb";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,47 +77,84 @@ export default function Home() {
   }, []);
   return (
     <>
-      <main className="flex flex-col gap-40">
+      <main className="flex flex-col gap-40 ">
         <div className="flex flex-col gap-20 items-center justify-center  h-screen overflow-hidden">
-          <div className="flex flex-row items-center justify-center">
-            <Magnet className="tracking-wider font-extrabold text-5xl md:text-8xl text-blue-500 text-center">
-              <span ref={gregRef}>GREG.</span>
-            </Magnet>
+          <div className="flex flex-col items-center justify-center gap-5">
+            <p
+              ref={gregRef}
+              className="tracking-wider font-extrabold text-5xl md:text-8xl text-blue-500 text-center"
+            >
+              GREG.
+            </p>
+
+            <p className="tracking-wider font-extrabold text-3xl md:text-5xl text-blue-500 text-center">
+              Post Sales Reinvented
+            </p>
+          
           </div>
 
-          <Link href="/register">
+          {/* <Link href="/register">
             <Button className="bg-black text-white dark:bg-blue-500 dark:text-white">
               Register your interest
             </Button>
-          </Link>
+          </Link> */}
         </div>
-        <div className="flex flex-col gap-10">
-          <div>
+        <div className="flex flex-col gap-10 items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-20">
             <HighlightText
-              ref={highlightRef}
               className="tracking-wider font-extrabold text-5xl lg:text-8xl align-middle text-center md:text-justify"
-              text="Integrate With Your App"
+              text="Account Management isn't meant to be paperwork"
             />
+            <div>
+              <p>Yet... We spend 50% of our time doing it</p>
+            </div>
           </div>
-
-          {/* Demo Section */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-            <div className="flex-1 w-full">
+        </div>
+        {/* Demo Section */}
+        <div className="flex flex-col gap-10">
+          <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 w-full">
+            <div className="flex-1 flex flex-col justify-center items-center">
               <FileTreeDemo />
             </div>
-            <div className="flex-1 w-full">
+            <div className="flex-1 flex flex-col justify-between items-stretch">
+              <div className="mb-4 self-start">
+                <p>Greg your AI-Powered assistant can handle the admin chaos</p>
+              </div>
+              <div className="self-end">
+                <Folder />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              
+            <p>So you can focus on what actually moves the needle, your customers</p>
+            </div>
+            <div>
+
+            </div>
+          <div className="flex-1 w-full">
               <AnimatedBeamDemo />
             </div>
           </div>
         </div>
-        {/* About Us Section */}
-        <AboutUsSection />
-        {/* Register Section */}
+        <div className="flex flex-col md:flex-row gap-5 items-center justify-center">
+          <div>
+            <Orb />
+          </div>
+          <div>
+            <p>
+              Get in line before Greg starts ghosting humans.
+              <br />
+              Early users get first dibs, feedbacks perks, and eternal glory
+            </p>
+          </div>
         <div
           className="flex flex-col md:flex-row justify-center items-center gap-2 w-full p-14"
           id="register-your-interest"
         >
           <RegisterYourInterest />
+        </div>
         </div>
         <ContactUs />
       </main>

@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 function Navbar() {
   const navLinks = [
     { name: "About", link: "/about" },
-    { name: "Register your interest", link: "/register" },
+    { name: "Register  interest", link: "/register-interest" },
     { name: "Contact", link: "/contact" },
   ];
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -44,11 +44,14 @@ function Navbar() {
     }
   }, [toggleMenu]);
 
-  const navLinkClass = (link: string, base: string, active: string) =>
-    base + (pathname === link ? active : "");
+  const navLinkClass = (link: string) =>
+    `transition-colors rounded-[8px] p-2 ` +
+    (pathname === link
+      ? "bg-black text-white dark:bg-white dark:text-neutral-900"
+      : "hover:text-gray-700 dark:hover:text-gray-300");
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 mt-6 mb-32">
+    <header className="w-full fixed top-0 left-0 z-50 mt-6 ">
       <div className="mx-auto w-full md:w-[90%] lg:w-[75%] px-4">
         <nav className="flex items-center justify-between py-3 px-4 rounded-3xl backdrop-blur-md bg-white/60 dark:bg-black/30">
           {/* Left - Logo */}
@@ -66,11 +69,7 @@ function Navbar() {
                 <li key={link.name}>
                   <a
                     href={link.link}
-                    className={navLinkClass(
-                      link.link,
-                      "hover:text-gray-700 dark:hover:text-gray-300 transition-colors",
-                      " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white",
-                    )}
+                    className={navLinkClass(link.link)}
                   >
                     {link.name}
                   </a>
@@ -130,11 +129,7 @@ function Navbar() {
               <a
                 href={link.link}
                 onClick={() => setToggleMenu(false)}
-                className={navLinkClass(
-                  link.link,
-                  "hover:text-gray-600 transition-colors",
-                  " bg-white p-2 rounded-[8px] text-black dark:bg-neutral-900 dark:text-white",
-                )}
+                className={navLinkClass(link.link)}
               >
                 {link.name}
               </a>
