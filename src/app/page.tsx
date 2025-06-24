@@ -1,161 +1,181 @@
 "use client";
-import Magnet from "@/components/misc/magnet";
-import Link from "next/link";
-import { CoolMode } from "@/components/misc/cool-mode";
-import { Button } from "@/components/ui/button";
 import HighlightText from "@/components/misc/highlight";
 import { AnimatedBeamDemo } from "@/components/misc/AnimatedBeam";
 import { FileTreeDemo } from "@/components/misc/FileTree";
 import { useRef, useEffect } from "react";
 import SplitType from "split-type";
+import { SplitText, ScrollTrigger, ScrollSmoother } from "gsap/all";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AboutUsSection } from "@/components/landing-page/About-Us";
 import RegisterYourInterest from "@/components/landing-page/RegisterYourInterest";
 import ContactUs from "@/components/landing-page/Contact-Us";
-import Folder from "@/blocks/Components/Folder/Folder";
-import Orb from "@/blocks/Components/Orb/Orb";
+import { BoxReveal } from "@/components/magicui/box-reveal";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Particles from "@/components/misc/Particles";
+import VoiceOver from "@/components/misc/VoiceOver";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const highlightRef = useRef(null);
-  const gregRef = useRef(null);
-  useEffect(() => {
-    // HighlightText scroll-trigger animation
-    let split: SplitType | null = null;
-    if (highlightRef.current) {
-      split = new SplitType(highlightRef.current, { types: "words" });
+  useGSAP(() => {
+    const heroSplit = new SplitText(".title", {
+      type: "chars, words",
+    });
+    const subHeroSplit = new SplitText(".subtitle", { type: "chars, words" });
 
-      gsap.fromTo(
-        split.words,
-        {
-          y: 80,
-          opacity: 0,
-          rotate: 8,
-          scale: 0.95,
-          filter: "blur(6px)",
-        },
-        {
-          y: 0,
-          opacity: 1,
-          rotate: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          stagger: 0.06,
-          duration: 1.1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: highlightRef.current,
-            start: "top 80%",
-          },
-        },
-      );
-      if (gregRef.current) {
-        split = new SplitType(gregRef.current, { types: "words" });
-        gsap.fromTo(
-          split.words,
-          {
-            x: 0,
-            yoyo: true,
-            rotation: 360,
-            duration: 2,
-            ease: "bounce.inOut",
-          },
-          {
-            x: 150,
-          },
-        );
-      }
-    }
+    gsap.from(heroSplit.chars, {
+      y: -180,
+      opacity: 0,
+      duration: 1.8,
+      ease: "expo.out",
+      stagger: 0.06,
+    });
 
-    return () => {
-      if (split) {
-        split.revert();
-      }
-    };
+    gsap.from(subHeroSplit.chars, {
+      x: -120, // Start from left
+      opacity: 0,
+      duration: 1.4,
+      ease: "power3.out",
+      stagger: 0.04,
+      delay: 0.3,
+    });
+
+    gsap.to(".title", {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".title",
+        start: "top top",
+        end: "top -60%",
+        scrub: true,
+      },
+    });
+
+    gsap.to(".subtitle", {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".subtitle",
+        start: "top top",
+        end: "top -60%",
+        scrub: true,
+      },
+    });
   }, []);
+  // const highlightRef = useRef(null);
+  // const gregRef = useRef(null);
+  // useEffect(() => {
+  //   // HighlightText scroll-trigger animation
+  //   let split: SplitType | null = null;
+  //   if (highlightRef.current) {
+  //     split = new SplitType(highlightRef.current, { types: "words" });
+
+  //     gsap.fromTo(
+  //       split.words,
+  //       {
+  //         y: 80,
+  //         opacity: 0,
+  //         rotate: 8,
+  //         scale: 0.95,
+  //         filter: "blur(6px)",
+  //       },
+  //       {
+  //         y: 0,
+  //         opacity: 1,
+  //         rotate: 0,
+  //         scale: 1,
+  //         filter: "blur(0px)",
+  //         stagger: 0.06,
+  //         duration: 1.1,
+  //         ease: "power4.out",
+  //         scrollTrigger: {
+  //           trigger: highlightRef.current,
+  //           start: "top 80%",
+  //         },
+  //       },
+  //     );
+  //   }
+
+  //   return () => {
+  //     if (split) {
+  //       split.revert();
+  //     }
+  //   };
+  // }, []);
+
   return (
     <>
-      <main className="flex flex-col gap-40 ">
-        <div className="flex flex-col gap-20 items-center justify-center  h-screen overflow-hidden">
-          <div className="flex flex-col items-center justify-center gap-5">
-            <p
-              ref={gregRef}
-              className="tracking-wider font-extrabold text-5xl md:text-8xl text-blue-500 text-center"
-            >
+      <main className="flex flex-col gap-40 px-20 overflow-hidden ">
+        <div className="flex flex-col items-center justify-center  h-screen relative">
+          <div className=" absolute top-0 w-screen h-screen z-30 pointer-events-none">
+            <Particles />
+          </div>
+          <div className="flex flex-col items-center justify-center gap-5 z-50">
+            <p className="title tracking-wider font-extrabold text-5xl md:text-8xl text-blue-500 text-center">
               GREG.
             </p>
 
-            <p className="tracking-wider font-extrabold text-3xl md:text-5xl text-blue-500 text-center">
+            <p className="tracking-wider font-extrabold text-3xl md:text-5xl text-blue-500 text-center subtitle">
               Post Sales Reinvented
             </p>
-          
           </div>
-
-          {/* <Link href="/register">
-            <Button className="bg-black text-white dark:bg-blue-500 dark:text-white">
-              Register your interest
-            </Button>
-          </Link> */}
         </div>
-        <div className="flex flex-col gap-10 items-center justify-center">
+        <div className="flex flex-col gap-10 items-center justify-center w-screen h-screen">
           <div className="flex flex-col items-center justify-center gap-20">
             <HighlightText
-              className="tracking-wider font-extrabold text-5xl lg:text-8xl align-middle text-center md:text-justify"
-              text="Account Management isn't meant to be paperwork"
+              className=" text-heading-one"
+              text="Account Management isn't meant to be paper work"
             />
             <div>
-              <p>Yet... We spend 50% of our time doing it</p>
+              <BoxReveal>
+                <p className=" font-extrabold text-4xl lg:text-6xl align-middle text-center md:text-justify">
+                  Yet... We spend 50% of our time doing it
+                </p>
+              </BoxReveal>
             </div>
           </div>
         </div>
         {/* Demo Section */}
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 w-full">
-            <div className="flex-1 flex flex-col justify-center items-center">
-              <FileTreeDemo />
+        <div className="flex items-center  justify-center">
+          <div className="flex flex-row gap-5  items-center">
+            <div className="flex-1">
+              <h2 className="">
+                Let Greg, your AI-powered assistant, handle the admin chaos
+              </h2>
+              <h2>So you can focus on what moves the needle, your customers</h2>
             </div>
-            <div className="flex-1 flex flex-col justify-between items-stretch">
-              <div className="mb-4 self-start">
-                <p>Greg your AI-Powered assistant can handle the admin chaos</p>
-              </div>
-              <div className="self-end">
-                <Folder />
-              </div>
+            <div className="flex-1">
+              <VoiceOver />
             </div>
           </div>
-          <div>
-            <div>
-              
-            <p>So you can focus on what actually moves the needle, your customers</p>
-            </div>
-            <div>
+        </div>
 
+        <div className="flex items-center  justify-center">
+          <div className="flex flex-row gap-5  items-center w-full ">
+            <div className="flex-1">
+              <h2 className="">
+                Let Greg, your AI-powered assistant, handle the admin chaos
+              </h2>
+              <h2>So you can focus on what moves the needle, your customers</h2>
             </div>
-          <div className="flex-1 w-full">
-              <AnimatedBeamDemo />
+            <div className="flex-1">
+              <VoiceOver />
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-5 items-center justify-center">
-          <div>
-            <Orb />
+        <div className="flex items-center  justify-center w-full">
+          <div className="flex flex-row gap-5  items-center justify-center w-full">
+            <div className="flex-1 items-center justify-center flex">
+              <RegisterYourInterest />
+            </div>
+            <div className="flex-1">
+              <VoiceOver />
+            </div>
           </div>
-          <div>
-            <p>
-              Get in line before Greg starts ghosting humans.
-              <br />
-              Early users get first dibs, feedbacks perks, and eternal glory
-            </p>
-          </div>
-        <div
-          className="flex flex-col md:flex-row justify-center items-center gap-2 w-full p-14"
-          id="register-your-interest"
-        >
-          <RegisterYourInterest />
         </div>
-        </div>
+
+        <div className="flex flex-col md:flex-row gap-5 items-center justify-center"></div>
         <ContactUs />
       </main>
     </>

@@ -137,4 +137,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  .text-heading-one {
+    @apply tracking-wider font-extrabold text-5xl md:text-8xl;
+  }
+  .text-heading-two {
+    @apply tracking-wider font-extrabold text-3xl md:text-5xl;
+  }
+  .text-highlight {
+    @apply text-[#2667FF];
+  }
 }
