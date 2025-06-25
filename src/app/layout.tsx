@@ -31,21 +31,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <TanstackQueryProvider>
-              <header>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TanstackQueryProvider>
+            <header>
+              <AuthProvider>
                 <Navbar />
-              </header>
-              <main className="mt-5">{children}</main>
-            </TanstackQueryProvider>
-          </ThemeProvider>
-        </AuthProvider>
+              </AuthProvider>
+            </header>
+            <main className="mt-5">{children}</main>
+          </TanstackQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

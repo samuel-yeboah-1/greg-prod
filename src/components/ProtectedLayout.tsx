@@ -1,6 +1,6 @@
 // components/ProtectedRoute.tsx
 "use client";
-
+import { AuthProvider } from "@/contexts/AuthContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -63,9 +63,11 @@ export function withAuth<P extends object>(
 ) {
   return function AuthenticatedComponent(props: P) {
     return (
-      <ProtectedRoute requireAuth={requireAuth}>
-        <Component {...props} />
-      </ProtectedRoute>
+      <AuthProvider>
+        <ProtectedRoute requireAuth={requireAuth}>
+          <Component {...props} />
+        </ProtectedRoute>
+      </AuthProvider>
     );
   };
 }

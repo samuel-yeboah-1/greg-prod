@@ -12,7 +12,6 @@ import RegisterYourInterestForm from "../forms/RegisterYourInterestForm";
 
 function RegisterYourInterest() {
   return (
-  
     <Card className="min-w-96">
       <CardHeader>
         <CardTitle>Register your interest</CardTitle>
@@ -31,7 +30,6 @@ function RegisterYourInterest() {
         </Button>
       </CardFooter>
     </Card>
-  
   );
 }
 
