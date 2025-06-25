@@ -23,8 +23,9 @@ function HighlightText({
   ref,
   text,
   className,
-  inView = false,
+  inView = true, // Changed to true by default
   inViewMargin = '0px',
+  inViewOnce = true, // Made this configurable
   transition = { duration: 2, ease: 'easeInOut' },
   ...props
 }: HighlightTextProps) {
@@ -32,10 +33,12 @@ function HighlightText({
   React.useImperativeHandle(ref, () => localRef.current as HTMLSpanElement);
 
   const inViewResult = useInView(localRef, {
-    once: true,
+    once: inViewOnce,
     margin: inViewMargin,
   });
-  const isInView = !inView || inViewResult;
+
+  // Fixed logic: only animate when element is in view
+  const shouldAnimate = inView ? inViewResult : true;
 
   return (
     <motion.span
@@ -44,7 +47,7 @@ function HighlightText({
       initial={{
         backgroundSize: '0% 100%',
       }}
-      animate={isInView ? { backgroundSize: '100% 100%' } : undefined}
+      animate={shouldAnimate ? { backgroundSize: '100% 100%' } : undefined}
       transition={transition}
       style={{
         backgroundRepeat: 'no-repeat',

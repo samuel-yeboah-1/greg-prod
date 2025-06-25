@@ -143,6 +143,9 @@
   .text-heading-two {
     @apply tracking-wider font-extrabold text-3xl md:text-5xl;
   }
+  .text-heading-three {
+    @apply tracking-wider font-semibold text-2xl md:text-3xl;
+  }
   .text-highlight {
     @apply text-[#2667FF];
   }

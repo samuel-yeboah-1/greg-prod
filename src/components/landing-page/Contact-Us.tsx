@@ -4,17 +4,20 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
 function ContactUs() {
+  //To-do
+  // const handleQuery = async () => {
+  //   await handleQueryEmail
+  // }
   return (
     <div className="w-full max-w-lg flex flex-col items-start justify-center overflow-hidden pt-12 pb-8 gap-6 px-4 sm:px-6 md:px-8 mx-auto">
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex flex-col items-start gap-5 text-center">
           <span className="text-2xl xs:text-3xl sm:text-4xl md:text-[2.5rem] lg:text-[3.2rem] font-black tracking-tight leading-tight text-blue-900 dark:text-blue-200 drop-shadow-sm">
-            <span role="img" aria-label="wave">
-              👋
-            </span>{" "}
-            Questions? Curious about Greg?
+            Questions?
           </span>
-          <span className="block w-12 h-1 bg-gradient-to-r from-[#5046e6] to-blue-400 rounded-full mt-1 mb-2" />
+          <span className="text-2xl xs:text-3xl sm:text-4xl md:text-[2.5rem] lg:text-[3.2rem] font-black tracking-tight leading-tight text-blue-900 dark:text-blue-200 drop-shadow-sm whitespace-nowrap">
+            Curious about Greg?
+          </span>
         </div>
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
@@ -38,7 +41,7 @@ function ContactUs() {
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
         <div className="mt-2 flex flex-col items-start gap-2">
-          <a
+          {/* <a
             href="mailto:info@gregthe.ai"
             className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-[#5046e6] flex items-center gap-2 hover:underline hover:text-blue-700 transition-colors duration-200 break-all"
           >
@@ -46,7 +49,7 @@ function ContactUs() {
               📬
             </span>{" "}
             info@gregthe.ai
-          </a>
+          </a> */}
           <span className="text-xs text-gray-500 dark:text-blue-200 italic mt-1">
             (Real humans read this. Promise.)
           </span>
