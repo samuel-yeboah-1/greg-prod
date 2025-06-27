@@ -4,7 +4,6 @@ import { SigninType, SignupType } from "@/types";
 
 export const signinHandler = async (userCredentials: SigninType) => {
   try {
-    // Use the correct backend route
     const response = await authInstance.post("/api/v1/auth/login", userCredentials);
     if (response.status === 200) {
       localStorage.setItem("access_token", response.data.data.token)

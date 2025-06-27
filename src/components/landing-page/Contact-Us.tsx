@@ -41,15 +41,6 @@ function ContactUs() {
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
         <div className="mt-2 flex flex-col items-start gap-2">
-          {/* <a
-            href="mailto:info@gregthe.ai"
-            className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-[#5046e6] flex items-center gap-2 hover:underline hover:text-blue-700 transition-colors duration-200 break-all"
-          >
-            <span role="img" aria-label="mailbox">
-              📬
-            </span>{" "}
-            info@gregthe.ai
-          </a> */}
           <span className="text-xs text-gray-500 dark:text-blue-200 italic mt-1">
             (Real humans read this. Promise.)
           </span>
