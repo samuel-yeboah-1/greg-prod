@@ -15,7 +15,7 @@ export default function Home() {
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const containerRef = useRef(null);
-  const sectionsRef = useRef([]);
+  const sectionsRef = useRef<HTMLElement[]>([]);
   useEffect(() => {
     let titleSplit: any = null;
     let subtitleSplit: any = null;
@@ -93,7 +93,7 @@ export default function Home() {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
-  const addToRefs = (el) => {
+  const addToRefs = (el: HTMLElement | null) => {
     if (el && !sectionsRef.current.includes(el)) {
       sectionsRef.current.push(el);
     }

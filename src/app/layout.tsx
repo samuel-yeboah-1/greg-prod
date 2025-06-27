@@ -37,14 +37,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TanstackQueryProvider>
-            <header>
-              <AuthProvider>
+          <AuthProvider>
+            <TanstackQueryProvider>
+              <header>
                 <Navbar />
-              </AuthProvider>
-            </header>
-            <main className="mt-5">{children}</main>
-          </TanstackQueryProvider>
+              </header>
+              <main className="mt-5">{children}</main>
+            </TanstackQueryProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
